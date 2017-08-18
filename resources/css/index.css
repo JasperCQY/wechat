@@ -1,0 +1,212 @@
+body {
+    margin: 0px;
+}
+
+#winHead {
+    -webkit-app-region: drag;
+    background-color: rgb(57, 61, 60);
+    height: 30px;
+    padding-left: 5px;
+    border-top-left-radius : 5px;
+    border-top-right-radius : 5px;
+}
+
+#winHead .title {
+    color: white;
+    position: absolute;
+    left: 40px;
+    top: 3px;
+}
+
+#winHead .winClose {
+    -webkit-app-region: no-drag;
+    float: right;
+    margin-right: 6px;
+    margin-top: 3px;
+    color: white;
+    cursor: pointer;
+}
+
+#winContent {
+    border: solid 1px gray;
+    width: 430px;
+    height: 430px;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+
+#tip-contacts {
+    position: absolute;
+    width: 104px;
+    left: 319px;
+    top: 58px;
+    font-size: 12px;
+    border: 1px solid gray;
+    max-height: 320px;
+    background-color: white;
+    overflow-y: auto;
+}
+
+#tip-contacts div {
+    height: 16px;
+    overflow: hidden;
+    border-bottom: 1px solid gray;
+}
+#tip-contacts div:hover {
+    background-color: rgb(255,204,204);
+    cursor: pointer;
+}
+
+#winContent #c-head {
+    float: left;
+    width: 430px;
+    height: 60px;
+    border-bottom: 1px gray solid;
+    position: relative;
+}
+
+#winContent #left {
+    float: left;
+    width: 119px;
+    height: 369px;
+    border-right: 1px gray solid;
+    overflow: hidden;
+}
+
+#winContent #left .c-left {
+    float: left;
+    width: 119px;
+    height: 349px;
+    max-height: 349px;
+    overflow-y: auto;
+    font-size: 12px;
+    overflow-x: hidden;
+}
+#winContent #left .c-left div{
+    cursor: default;
+    overflow: hidden;
+}
+
+#winContent #left .c-left-bottom {
+    float: left;
+    width: 119px;
+    height: 20px;
+    overflow: hidden;
+}
+
+.c-left-bottom div{
+    cursor: pointer;
+    float: left;
+    width: 59px;
+    max-height: 20px;
+    font-size: 8px;
+    background-color: rgb(242,242,242);
+    overflow: hidden;
+}
+
+.c-left-bottom .active {
+    background-color: rgb(153,204,255) ;
+}
+
+#winContent #c-content {
+    float: left;
+    width: 310px;
+    height: 305px;
+    max-height: 305px;
+    overflow-y: auto;
+    word-wrap: break-word;
+    padding-bottom: 5px;
+}
+
+#winContent #c-input {
+    float: left;
+    width: 310px;
+    height: 59px;
+    border-top: 1px solid gray;
+}
+
+.l-focus {
+    /*background-color: rgb(246,225,188);*/
+    background-color: rgb(153, 204, 255);
+}
+
+.linkman {
+    height: 30px;
+    border-bottom: solid 1px rgb(240, 240, 240);
+    overflow: hidden;
+    position: relative;
+}
+
+.linkman .linkman-head {
+    float: left;
+    height: 30px;
+    width: 30px;
+    cursor: default;
+}
+
+.linkman .new {
+    position: absolute;
+    float: left;
+    left: 14px;
+    top: 14px;
+    display: none;
+}
+
+.linkman .linkman-name {
+    float: left;
+    min-width: 72px;
+    max-width: 87px;
+    height: 15px;
+    font-size: 10px;
+    cursor: default;
+    overflow: hidden;
+    position: absolute;
+    left: 30px;
+    top: 0px;
+}
+
+.linkman .linkman-con {
+    float: left;
+    height: 14px;
+    max-width: 87px;
+    min-width: 72px;
+    font-size: 10px;
+    color: green;
+    overflow: hidden;
+    cursor: default;
+    position: absolute;
+    left: 30px;
+    top: 15px;
+}
+
+#sendButton {
+    width: 41px;
+    height: 16px;
+    position: absolute;
+    bottom: 3px;
+    right: 3px;
+    background-image: url("/resources/imgs/sendd.png");
+}
+
+#sendButton:hover {
+    cursor: pointer;
+    background-image: url("/resources/imgs/sendu.png");
+}
+
+.c-c-msg {
+    padding-left: 3px;
+    padding-top: 3px;
+    font-size: 12px;
+}
+
+.blue {
+    color: blue;
+}
+
+.green {
+    color: green;
+}
+
+.c-c-content {
+    padding-left: 5px;
+}

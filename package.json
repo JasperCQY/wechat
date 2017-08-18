@@ -1,0 +1,19 @@
+{
+  "name": "微信",
+  "main": "index.html",
+  "nodejs": true,
+  "window": {
+    "title": "微信",
+    "toolbar": false,
+    "width": 432,
+    "height": 462,
+    "resizable": false,
+    "icon" : "/resources/logo.png",
+    "show_in_taskbar": true,
+    "frame": false,
+    "kiosk": false
+  },
+  "webkit": {
+    "plugin": true
+  }
+}
