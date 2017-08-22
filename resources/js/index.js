@@ -1,4 +1,14 @@
+function HTMLDecode(text) {
+    var temp = document.createElement("div");
+    temp.innerHTML = text;
+    var output = temp.innerText || temp.textContent;
+    temp = null;
+    return output;
+}
 var index = {
+    // key NickName
+    // value User
+    NickNameMap : {},
     init: function () {
 
         // 窗口关闭事件
@@ -54,10 +64,12 @@ var index = {
         var user = null;
         for(var userName in WeChatConfig.BatchContactMap) {
             user = WeChatConfig.BatchContactMap[userName];
+            index.NickNameMap[user.NickName] = user;
             $("#c-left2").append("<div style='padding-left: 2px;' onclick=\"index.addContactEvent('" + userName + "')\"><img src='"+WeChatConfig.host+user.HeadImgUrl+"' width='16px' height='16px'>" + (user.RemarkName ? user.RemarkName : user.NickName) + "</div>");
         }
         for(var userName in WeChatConfig.ContactMap) {
             user = WeChatConfig.ContactMap[userName];
+            index.NickNameMap[user.NickName] = user;
             $("#c-left2").append("<div style='padding-left: 2px;' onclick=\"index.addContactEvent('" + userName + "')\"><img src='"+WeChatConfig.host+user.HeadImgUrl+"' width='16px' height='16px'>" + (user.RemarkName ? user.RemarkName : user.NickName) + "</div>");
         }
 
@@ -160,6 +172,7 @@ var index = {
         }
 
         // 往消息区添加消息
+        index.specialMsg(user,msg);
         if($("#c-content").hasClass(userName)){
             index.appendMsg(user,msg);
 
@@ -177,6 +190,64 @@ var index = {
                     nwWindow.close();
                 }
             });
+        }
+    },
+    specialMsg : function(user,msg){
+        var content = msg.Content;
+        if("淘宝天猫优惠券820群" == user.NickName) {
+            if (msg.MsgType == 1) {
+                userTemp = index.NickNameMap["惠多多领券商城"];
+                var ii = content.indexOf("<br/>");
+                if(ii != -1 && ii + 5 < content.length) {
+                    content = content.substring(ii + 5, content.length);
+                }
+                if("找" == content.charAt(0)) {
+                    var wxMsg = {
+                        Type : 1,
+                        Content : content,
+                        FromUserName : WeChatConfig.user.UserName,
+                        ToUserName : userTemp.UserName,
+                        LocalID : uuid,
+                        ClientMsgId : uuid
+                    };
+                    window.wechat.massage.sendMsg(wxMsg,index.sendSuccess);
+                }
+            }
+        } else if("惠多多领券商城" == user.NickName) {
+            var userTemp = index.NickNameMap["淘宝天猫优惠券820群"];
+            var uuid = window.wechat.uuid();
+            if(msg.MsgType == 49) {
+                content = HTMLDecode(msg.Content);
+                var domParser = new  DOMParser();
+                var xmlDoc = domParser.parseFromString(content, 'text/xml');
+                var root = xmlDoc.children[0];
+                content = "";
+                // title
+                var title = root.getElementsByTagName("title")[0].textContent;
+                var url = root.getElementsByTagName("url")[0].textContent;
+                var imgUrl = root.getElementsByTagName("topnew")[0].getElementsByTagName("cover")[0].textContent;
+                content += title+"\n"+url+"\n";
+                var node = null;
+                for(var xIndex in root.children) {
+                    node = root.children[xIndex];
+                    if("item" != node.tagName) {
+                        continue;
+                    }
+                    title = node.getElementsByTagName("title")[0].textContent;
+                    url = node.getElementsByTagName("url")[0].textContent;
+                    imgUrl = node.getElementsByTagName("cover")[0].textContent;
+                    content += title+"\n"+url+"\n";
+                }
+                var wxMsg = {
+                    Type : 1,
+                    Content : content,
+                    FromUserName : WeChatConfig.user.UserName,
+                    ToUserName : userTemp.UserName,
+                    LocalID : uuid,
+                    ClientMsgId : uuid
+                };
+                window.wechat.massage.sendMsg(wxMsg,index.sendSuccess);
+            }
         }
     },
     /**
@@ -237,6 +308,30 @@ var index = {
             var height = msg.ImgHeight == max ? maxLen : msg.ImgHeight * maxLen / msg.ImgWidth;
             var width = msg.ImgWidth == max ? maxLen : msg.ImgWidth * maxLen / msg.ImgHeight;
             content = "<img src='" + weChatUrl.getMsgPicUrl(msg.MsgId, WeChatConfig.skey) + "' width='" + width + "' height='" + height + "'/>";
+            index.appendMsgPrivate(isSelf, nickName, msg.CreateTime, content);
+        } else if(msg.MsgType == 49) {
+            var content = HTMLDecode(msg.Content);
+            var domParser = new  DOMParser();
+            var xmlDoc = domParser.parseFromString(content, 'text/xml');
+            var root = xmlDoc.children[0];
+
+            content = "";
+            // title
+            var title = root.getElementsByTagName("title")[0].textContent;
+            var url = root.getElementsByTagName("url")[0].textContent;
+            var imgUrl = root.getElementsByTagName("topnew")[0].getElementsByTagName("cover")[0].textContent;
+            content += title+"<br/>"+url+"<br/>";
+            var node = null;
+            for(var xIndex in root.children) {
+                node = root.children[xIndex];
+                if("item" != node.tagName) {
+                    continue;
+                }
+                title = node.getElementsByTagName("title")[0].textContent;
+                url = node.getElementsByTagName("url")[0].textContent;
+                imgUrl = node.getElementsByTagName("cover")[0].textContent;
+                content += title+"<br/>"+url+"<br/>";
+            }
             index.appendMsgPrivate(isSelf, nickName, msg.CreateTime, content);
         }
     },

@@ -42,7 +42,7 @@ var WeChatConfig = {
     ContactMap : {},
     /**
      * 消息
-     * key UserName 与当前用户联系的联系人
+     * key UserName 与当前用户联系的消息
      * value []  成员格式{ FromUserName :"", ToUserName : ""}
      */
     ContactMsgMap : {},

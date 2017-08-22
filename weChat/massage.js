@@ -74,7 +74,7 @@ window.wechat.massage = {
         }
     },
     sendMsg : function(msg,callBack){
-        if(!msg && "object"==typeof(msg)) {
+        if(!msg || "object"!=typeof(msg)) {
             return;
         }
         var payload = {
