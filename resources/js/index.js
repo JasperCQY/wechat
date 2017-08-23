@@ -73,6 +73,10 @@ var index = {
             $("#c-left2").append("<div style='padding-left: 2px;' onclick=\"index.addContactEvent('" + userName + "')\"><img src='"+WeChatConfig.host+user.HeadImgUrl+"' width='16px' height='16px'>" + (user.RemarkName ? user.RemarkName : user.NickName) + "</div>");
         }
 
+        // 发送消息框事件
+        // new PasteEvent($("#c-input textarea")[0],index.pasteImg);
+        wechat.massage.pasteUploadPic("#c-input textarea","#c-input textarea","#sendButton",index.getToUserName,index.sendSuccess);
+
         // 开始同步
         window.wechat.massage.heartbeat(index.receiveMsg, index.errorEvent);
 
@@ -87,6 +91,35 @@ var index = {
                 var msg = $("#c-input textarea").val();
                 $("#c-input textarea").val("");
                 index.sendMsg(msg);
+            }
+        });
+    },
+    getToUserName : function(){
+        var userName = $("#c-content").attr("class");
+        var user = WeChatConfig.getContact(userName);
+        return user ? user.UserName : null;
+    },
+    sendImgSuccess : function(file){
+        console.log(file.path+file.name);
+        console.log(file);
+        var sendImgForm = document.getElementById("wx-send-img");
+        sendImgForm.value = file.path+file.name;
+        var formData = new FormData(sendImgForm);
+        console.log(formData);
+
+        $.ajax({
+            url: 'http://localhost:8080/cfJAX_RS/rest/file/upload' ,
+            type: 'POST',
+            data: formData,
+            async: false,
+            cache: false,
+            contentType: false,
+            processData: false,
+            success: function (returndata) {
+                alert(returndata);
+            },
+            error: function (returndata) {
+                alert(returndata);
             }
         });
     },
@@ -302,12 +335,19 @@ var index = {
             content = "<img src='" + weChatUrl.getMsgPicUrl(msg.MsgId, WeChatConfig.skey) + "' width='" + width + "' height='" + height + "'/>";
             index.appendMsgPrivate(isSelf, nickName, msg.CreateTime, content);
         } else if(msg.MsgType == 3) {
+
             // 图片。最大200x200
             var maxLen = 100;
             var max = Math.max(msg.ImgHeight, msg.ImgWidth);
             var height = msg.ImgHeight == max ? maxLen : msg.ImgHeight * maxLen / msg.ImgWidth;
             var width = msg.ImgWidth == max ? maxLen : msg.ImgWidth * maxLen / msg.ImgHeight;
-            content = "<img src='" + weChatUrl.getMsgPicUrl(msg.MsgId, WeChatConfig.skey) + "' width='" + width + "' height='" + height + "'/>";
+            if(msg.FromUserName == user.UserName) {
+                // 接收
+                content = "<img src='" + weChatUrl.getMsgPicUrl(msg.MsgId, WeChatConfig.skey) + "' width='" + width + "' height='" + height + "'/>";
+            } else {
+                // 发送
+                content = "<img src='" + weChatUrl.getSendMsgPicUrl(msg.MediaId) + "' width='" + width + "' height='" + height + "'/>";
+            }
             index.appendMsgPrivate(isSelf, nickName, msg.CreateTime, content);
         } else if(msg.MsgType == 49) {
             var content = HTMLDecode(msg.Content);

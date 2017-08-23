@@ -2,11 +2,17 @@
 <head>
     <meta charset="UTF-8" />
     <link href="/resources/logo.ico" rel="shortcut icon"/>
+    <link href="/resources/webuploader/css/webuploader.css" rel="stylesheet"/>
     <link href="/resources/css/index.css" rel="stylesheet"/>
     <script type="text/javascript" src="/jquery/jquery-1.9.1.min.js"></script>
     <script type="text/javascript" src="/String.js"></script>
     <script type="text/javascript" src="/Date.js"></script>
     <script type="text/javascript" src="/nwWindow.js"></script>
+
+
+    <script type="text/javascript" src="/resources/webuploader/js/webuploader.js"></script>
+
+
     <script type="text/javascript" src="/weChat/config.js"></script>
     <script type="text/javascript" src="/weChat/weChatUrl.js"></script>
     <script type="text/javascript" src="/weChat/login.js"></script>
@@ -75,6 +81,7 @@
 
 
     <div id="resource" style="display: none;">
+        <!-- 左侧显示联系人 -->
         <div id="linkman" class="linkman" onclick="index.changeContact(this)">
             <div style="position: relative;">
               <img class="linkman-head"/>
@@ -83,10 +90,19 @@
             <div class="linkman-name">NickName</div>
             <div class="linkman-con"></div>
         </div>
+        <!-- 右侧聊天内容显示 -->
         <div id="c-c-msg" class="c-c-msg">
             <div class="c-c-head"><span class="c-c-nickname">刘康</span>&nbsp;<span class="c-c-time">2017/08/10 10:48:12</span></div>
             <div class="c-c-content">当青春撩动了你的长发，让我牵引你的梦</div>
         </div>
+        <!-- 发送图片form -->
+        <form style="display: block" id="wx-send-img">
+            <input id="WU_FILE_4" name="WU_FILE_4"/>
+            <input id="uploadmediarequest" name="uploadmediarequest"/>
+            <input id="webwx_data_ticket" name="webwx_data_ticket"/>
+            <input id="pass_ticket" name="pass_ticket"/>
+            <input type="file" id="filename" name="filename"/>
+        </form>
     </div>
 </body>
 </html>

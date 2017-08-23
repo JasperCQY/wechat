@@ -13,6 +13,7 @@ var weChatUrl = {
     GET_BATCK_CONTACT_URL : "https://wx.qq.com/cgi-bin/mmwebwx-bin/webwxbatchgetcontact?type=ex&r={0}&lang=zh_CN&pass_ticket={1}",
     SEND_MSG_URL : "https://wx.qq.com/cgi-bin/mmwebwx-bin/webwxsendmsg?pass_ticket={0}",
     GET_MSG_PIC_URL : "https://wx.qq.com/cgi-bin/mmwebwx-bin/webwxgetmsgimg?&MsgID={0}&skey={1}",
+    GET_SEND_MSG_PIC_URL : "https://wx.qq.com/cgi-bin/mmwebwx-bin/webwxpreview?fun=preview&mediaid={0}",
 
     uuidUrl: function () {
         return weChatUrl.UUID_URL.format("" + new Date().getTime());
@@ -60,5 +61,12 @@ var weChatUrl = {
      */
     getMsgPicUrl : function(msgId,skey,type) {
         return weChatUrl.GET_MSG_PIC_URL.format(msgId,encodeURIComponent(skey));
+    },
+    /**
+     * 消息图片路径
+     * @param mediaid 消息id
+     */
+    getSendMsgPicUrl : function(mediaid) {
+        return weChatUrl.GET_SEND_MSG_PIC_URL.format(mediaid);
     }
 };

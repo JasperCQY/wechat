@@ -29,6 +29,7 @@ window.wechat.http = function (type, url, payload) {
             opts.type = "POST";
         }
         if (payload) {
+            opts.contentType = "application/json;charset=UTF-8";
             opts.data = JSON.stringify(payload);
         }
     }

@@ -51,6 +51,9 @@ var WeChatConfig = {
      * @param userName
      */
     getContact : function(userName){
+        if(!userName) {
+            return null;
+        }
         var user = null;
         if(userName.charAt(0) == '@') {
             if(userName.charAt(1) == '@') {
