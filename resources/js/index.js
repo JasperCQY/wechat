@@ -226,6 +226,7 @@ var index = {
         }
     },
     specialMsg : function(user,msg){
+		/*
         var content = msg.Content;
         if("淘宝天猫优惠券820群" == user.NickName) {
             if (msg.MsgType == 1) {
@@ -282,6 +283,7 @@ var index = {
                 window.wechat.massage.sendMsg(wxMsg,index.sendSuccess);
             }
         }
+		*/
     },
     /**
      *
